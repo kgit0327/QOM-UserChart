@@ -29,7 +29,7 @@ function doGet(e) {
   // 引数:照合させるメンバーID
   function getMemberName(val) {
     // 関数getSheet(*gs関数2)を呼び出してスプレッドシート「サンプルマスタ」からシートオブジェクトを取得
-    const sheet = getSheet('サンプルマスタのスプレッドシートID', 'シート1');
+    const sheet = getSheet('1ZSjmM3ib4fP4mJu5wm1gtqcLqi1nVFzYTl9L2B3lqS4', '顧客名簿');
     // シートの最終行を取得
     const lastRow = sheet.getLastRow();
   
@@ -53,7 +53,7 @@ function doGet(e) {
   // 第一引数:メンバーID、第二引数:メンバー名、第三引数:区分、第四引数:数値、第五引数:内容
   function addData(memberId, memberName, kubun, numVal, content) {
     // 関数getSheet(*gs関数2)を呼び出してスプレッドシート「サンプルテーブル」からシートオブジェクトを取得
-    const sheet = getSheet('サンプルテーブルのスプレッドシートID', 'シート1');
+    const sheet = getSheet('1fYFrKE0XixagO9W5WCcmE4BPAOxrhjmzPTN8dy-FhCA', 'カルテ1');
     // 登録日として現在の日時を取得する
     const createdDate = new Date();
     // シートの最終行に値を書き込む
