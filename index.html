@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <h1>SampleApp</h1>
+		<div>
+			<form>
+				<div>
+					<label for="member-name">メンバー名</label>
+					<input type="text" readonly="true" id="member-name" style="border: none">
+				</div>
+				<div>
+					<label for="member-id">メンバーID</label>
+					<input type="text" id="member-id" onchange="outputMemberName(this.value)">
+				</div>
+				<div>
+					<label for="kubun">区分</label>
+					<select name="kubun" id="kubun">
+						<option value="-" hidden>-</option>
+						<option value="A">A</option>
+						<option value="B">B</option>
+						<option value="C">C</option>
+					</select>
+				</div>
+				<div>
+					<label for="num-val">数値</label>
+					<input type="number" id="num-val">
+				</div>
+				<div>
+					<label for="content">内容</label>
+					<input type="text" id="content">
+				</div>			
+				<div>
+					<input type="button" onClick="addBtnClick()" value="登録する">
+				</div>   
+		  </form>
+		</div>
+
+    <script>
+      // -----------------------------------------------------
+      // メンバーIDからメンバー名を取得してインプットボックスmember-nameへ出力する関数
+      // *js関数1
+      // -----------------------------------------------------
+      // 引数:メンバーID
+      function outputMemberName(memberId) {
+        // memberIDを引数にしてgetMemberName（*gs関数3）を実行する
+        // getMemberNameが成功したら…
+        // 返り値がある場合はインプットボックスmember-nameへ返り値を出力し、否ならばインプットボックスをリセットする
+        google.script.run.withSuccessHandler(function(memberName){
+          if (memberName) {
+            document.getElementById('member-name').value = memberName;
+          } else {
+            document.getElementById('member-name').value = '';
+          }
+        }).getMemberName(memberId);
+      }
+      // -----------------------------------------------------
+      
+      // -----------------------------------------------------
+      // 「登録するボタン」をおしたときの関数 *js関数2
+      //  補足）二重サブミットを防ぐためにsubmitでフォームを送る仕様にしないことにした
+      // -----------------------------------------------------
+      function addBtnClick() {
+        // 実行してよいか確認する
+        const checkAddFlg = window.confirm('登録を実行してもよろしいですか？');
+
+        if(checkAddFlg) { //OKをクリックしたら…
+          // フォームの入力値を取得する 
+          const memberId = document.getElementById('member-id').value;
+          const memberName = document.getElementById('member-name').value;
+          const kubun = document.getElementById('kubun').value;
+          const numVal = document.getElementById('num-val').value;
+          const content = document.getElementById('content').value;
+
+          // 取得した入力値を引数にしてaddData（*gs関数4）を実行する
+          // addDataが成功したら、js関数dataAddSuccess（*js関数3）を実行する
+          // addDataが失敗したら、js関数dataAddFail（*js関数4）を実行する
+          google.script.run.withSuccessHandler(dataAddSuccess).withFailureHandler(dataAddFail).addData(memberId, memberName, kubun, numVal, content);
+        } else {
+          alert("登録をキャンセルしました。");  
+        }
+      }
+
+      // -----------------------------------------------------
+      // addBtnClick（*js関数4）においてaddData（*gs関数4）が成功した時の関数
+      //  *js関数3
+      // -----------------------------------------------------
+      function dataAddSuccess() {
+        // アラートを表示し、入力フォームの値をリセットする
+        alert("登録に成功しました");
+        document.getElementById('member-id').value = '';
+        document.getElementById('member-name').value = '';
+        document.getElementById('kubun').value = '-';
+        document.getElementById('num-val').value = '';
+        document.getElementById('content').value = '';
+      }
+      // -----------------------------------------------------
+
+      // -----------------------------------------------------
+      // addBtnClick（*js関数4）においてaddData（*gs関数4）が失敗した時の関数
+      //  *js関数4
+      // -----------------------------------------------------
+      function dataAddFail() {
+        // アラートを表示する
+        alert("登録に失敗しました。");  
+      }
+      // -----------------------------------------------------
+
+	  </script>
+
+  </body>
+</html>
