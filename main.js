@@ -58,26 +58,5 @@ function doGet(e) {
     const createdDate = new Date();
     // シートの最終行に値を書き込む
     sheet.appendRow([memberId, memberName, kubun, numVal, content, createdDate]);
-    
-    // 通知メール用の本文を生成する
-    const mailMsg = `
-      ${memberName}さん（${memberId}）がデータを登録しました。
-      区分：${kubun}
-      数値：${numVal}
-      内容：${content}
-      登録日時：${createdDate}
-    `;
-    // 関数sendEmail(*gs関数5)を呼び出してメールを送信する
-    sendEmail(mailMsg);
   
   }
-  // -----------------------------------------------------
-  
-  // -----------------------------------------------------
-  // メールを送信する関数 *gs関数5
-  // -----------------------------------------------------
-  // 引数:メール本文
-  function sendEmail(mailMsg) {
-    GmailApp.sendEmail("任意のメールアドレス", "【sample通知】", mailMsg);
-  }
-  // -----------------------------------------------------
